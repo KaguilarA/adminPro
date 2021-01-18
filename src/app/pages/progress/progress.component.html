@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+
+        <app-progressbar
+        [background]="'bg-warning'"
+        [progress]="progress1"
+        (value)="progress1"
+        ></app-progressbar>
+
+        <app-increasing 
+        [value]="progress1"
+        [btnMinus]="'bg-secundary'"
+        [btnPlus]="'bg-primary'"
+        (value)="progress1 = $event"
+        ></app-increasing>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+
+        <app-progressbar
+        [background]="'bg-active'"
+        [progress]="22"
+        (value)="progress2"
+        ></app-progressbar>
+
+        <app-increasing
+        [value]="22"
+        (value)="progress2 = $event"
+        ></app-increasing>
+
+      </div>
+    </div>
+  </div>
+</div>

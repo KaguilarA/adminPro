@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-4">
+    <div class="card">
+      <app-chart 
+      type="doughnut"
+      title="Ventas"
+      [labels]="labels1"
+      [data]="data1"
+      [colors]="colors1"
+      ></app-chart>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="card">
+      <app-chart
+      type="pie"
+      title="Teléfonos más vendidos"
+      [labels]="labels2"
+      [data]="data2"
+      [colors]="colors2"></app-chart>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="card">
+
+      <app-chart
+      type="doughnut"
+      title="Reporte anual"
+      [labels]="labels3"
+      [data]="data3"
+      [colors]="colors3"></app-chart>
+    </div>
+  </div>
+</div>

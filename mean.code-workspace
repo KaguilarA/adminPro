@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "backend"
+		},
+		{
+			"path": "adminPro"
+		},
+		{
+			"path": "googleSignIn"
+		},
+		{
+			"path": "original"
+		}
+	],
+	"settings": {}
+}
