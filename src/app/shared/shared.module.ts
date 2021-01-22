@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -22,6 +23,7 @@ import { LoadingComponent } from './loading/loading.component';
     LoadingComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     RouterModule
   ]
