@@ -26,12 +26,12 @@
 
         <app-progressbar
         [background]="'bg-active'"
-        [progress]="22"
+        [progress]="progress2"
         (value)="progress2"
         ></app-progressbar>
 
         <app-increasing
-        [value]="22"
+        [value]="progress2"
         (value)="progress2 = $event"
         ></app-increasing>
 
