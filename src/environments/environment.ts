@@ -3,8 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  base_url: 'http://localhost:3000/'
 };
+
+export const localData = {
+  remindMe: 'emailLog',
+  login: 'hpAdminPro'
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
