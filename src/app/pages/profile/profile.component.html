@@ -1,0 +1,186 @@
+<div class="row">
+
+  <div class="col-7">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Modificar perfil</h4>
+
+        <form 
+        class="form p-t-20"
+        [formGroup]="profileFrom"
+        (submit)="updateProfile()">
+
+          <div class="row">
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="name">Primer nombre</label>
+                <div class="input-group">
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Nombre"
+                  formControlName="firstName">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="secondName">Segundo nombre</label>
+                <div class="input-group">
+                  <input 
+                  type="text"
+                  class="form-control"
+                  id="secondName"
+                  placeholder="Segundo nombre"
+                  formControlName="secondName">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="surname">Primer apellido</label>
+                <div class="input-group">
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="surname"
+                  placeholder="Apellido"
+                  formControlName="firstSurname">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="secondSurname">Segundo apellido</label>
+                <div class="input-group">
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="secondSurname"
+                  placeholder="Segundo apellido"
+                  formControlName="secondSurname">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Correo electrónico</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ti-email"></i></div>
+              <input 
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              placeholder="Enter email"
+              formControlName="email"
+              [readOnly]="currentUser.googleTokenLogin">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="pwd1">Cambiar contraseña</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="ti-lock"></i></div>
+                  <input 
+                  type="password"
+                  class="form-control"
+                  id="pwd1"
+                  placeholder="Nueva contraseña"
+                  formControlName="newPassword">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="pwd2">Confirmar antigua contraseña</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="ti-lock"></i></div>
+                  <input
+                  type="password"
+                  class="form-control"
+                  id="pwd2"
+                  placeholder="Contraseña actual"
+                  formControlName="oldPassword">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10">
+            Actualizar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-5">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Ajustes actuales</h4>
+        <div class="card-body">
+          <div class="m-t-30">
+            <img [src]="currentUser.img" class="img-circle" width="130">
+            <h4 class="card-title m-t-10">{{currentUser.mainName}}</h4>
+          </div>
+        </div>
+        <div>
+          <hr>
+        </div>
+        <div class="card-body">
+          <small class="text-muted">Correo electrónico </small>
+          <h6>{{currentUser.email}}</h6>
+          <small class="text-muted p-t-30 db">Nombre</small>
+          <h6>{{currentUser.names}}</h6>
+          <small class="text-muted p-t-30 db">Apellido</small>
+          <h6>{{currentUser.surnames}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-7">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Modificar imagen</h4>
+
+        <div class="text-center">
+          <img
+          *ngIf="newPhoto"
+          class="img-avatar"
+          [src]="previewImg">
+        </div>
+
+        <input 
+        type="file"
+        (change)="updateImage($event.target.files[0])">
+
+        <br>
+        <br>
+
+        <button 
+        type="button" 
+        class="btn btn-success btn-block waves-effect waves-light m-r-10"
+        [disabled]="!newPhoto"
+        (click)="uploadImage()">
+          Cambiar imagen
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

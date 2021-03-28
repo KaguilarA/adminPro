@@ -13,7 +13,12 @@ export class HeaderComponent {
   constructor(
     private userService: UserService,
     private router: Router
-  ) { }
+  ) {
+  }
+
+  get currentUser() {
+    return this.userService.activeUser;
+  }
 
   logout(): void {
     this.userService.logout();

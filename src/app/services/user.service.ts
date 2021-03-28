@@ -6,7 +6,9 @@ import { catchError, map, tap } from "rxjs/operators";
 import { environment, localData } from 'src/environments/environment';
 
 import { LoginData } from '../interfaces/login.interface';
+import { ProfileData } from '../interfaces/profile.interface';
 import { NewUserData } from '../interfaces/registerUser.interface';
+import { User } from '../models/user.model';
 
 const baseUrl = environment.base_url;
 
@@ -16,11 +18,20 @@ declare const gapi: any;
   providedIn: 'root'
 })
 export class UserService {
-
+  public activeUser: User;
   public auth2: any;
 
   constructor(private http: HttpClient) {
     this.googleInit();
+  }
+
+  get uid() {
+    return this.activeUser._id || '';
+  }
+
+  get token() {
+    const currentToken = sessionStorage.getItem(localData.login);
+    return currentToken;
   }
 
   googleInit() {
@@ -53,6 +64,7 @@ export class UserService {
         } else {
           localStorage.removeItem(localData.remindMe);
         }
+        this.activeUser = new User(res.data.user);
         sessionStorage.setItem(localData.login, res.data.token);
       })
     );
@@ -61,6 +73,7 @@ export class UserService {
   loginGoogle(token: string) {
     return this.http.post(`${baseUrl}login/google`, { token }).pipe(
       tap((res: any) => {
+        this.activeUser = new User(res.data.user);
         sessionStorage.setItem(localData.login, res.data.token);
       })
     );
@@ -69,6 +82,7 @@ export class UserService {
   logout() {
     this.auth2.signOut().then(() => {
       sessionStorage.removeItem(localData.login);
+      this.activeUser = null;
       console.log(`signedout`);
     });
   }
@@ -82,18 +96,31 @@ export class UserService {
   }
 
   renewToken(): any {
-    const currentToken = sessionStorage.getItem(localData.login);
-
     return this.http.get(`${baseUrl}login/renew`, {
       headers: {
-        'x-token': currentToken
+        'x-token': this.token
       }
     }).pipe(
       tap((res: any) => {
+        this.activeUser = new User(res.data.user);
         sessionStorage.setItem(localData.login, res.data.token);
       }),
       map(res => true),
-      catchError(err => of(false))
+      catchError(err => {
+        return of(err);
+      })
     );
+  }
+
+  updateProfile(profileData: ProfileData) {
+    return this.http.put(`${baseUrl}user/${this.uid}`, profileData, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
+  updateUser(newData) {
+    this.activeUser.updateData(newData);
   }
 }

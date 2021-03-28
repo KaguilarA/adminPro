@@ -10,7 +10,7 @@ export const environment = {
 export const localData = {
   remindMe: 'emailLog',
   login: 'hpAdminPro'
-}
+};
 
 /*
  * For easier debugging in development mode, you can import the following file
