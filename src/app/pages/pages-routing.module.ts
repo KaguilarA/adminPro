@@ -12,6 +12,10 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import { UsersComponent } from './maintenance/users/users.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -25,6 +29,12 @@ const routes: Routes = [
       { path: 'promises', component: PromisesComponent, data: { title: 'Promesas' } },
       { path: 'rxjs', component: RxjsComponent, data: { title: 'rxjs' } },
       { path: 'profile', component: ProfileComponent, data: { title: 'Perfil' } },
+
+      // Maintenance
+
+      { path: 'users', component: UsersComponent, data: { title: 'Mantenimiento de Usuarios' } },
+      { path: 'hospitals', component: HospitalsComponent, data: { title: 'Mantenimiento de Hospitales' } },
+      { path: 'doctors', component: DoctorsComponent, data: { title: 'Mantenimiento de Doctores' } }
     ]
   }
 ];

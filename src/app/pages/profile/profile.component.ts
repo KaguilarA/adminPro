@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from "sweetalert2";
 
 import { UserService } from 'src/app/services/user.service';
-import { FileUploadService } from 'src/app/services/file-upload.service';
+import { ModalImageService } from 'src/app/services/modal-image.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,13 +13,11 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class ProfileComponent implements OnInit {
   public profileFrom: FormGroup;
-  public newPhoto: File;
-  public previewImg: any = '';
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private fileUploadService: FileUploadService
+    private modalImage: ModalImageService
   ) {
   }
 
@@ -40,14 +38,6 @@ export class ProfileComponent implements OnInit {
     });console.log(this);
   }
 
-  showPreview() {
-    const reader = new FileReader();
-    reader.readAsDataURL(this.newPhoto);
-    reader.onloadend = () => {
-      this.previewImg = reader.result;
-    }
-  }
-
   updateProfile() {
     if (this.profileFrom.valid) {
       this.userService.updateProfile(this.profileFrom.value)
@@ -64,20 +54,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updateImage(file: File) {
-    if (!file) {
-      this.newPhoto = null
-    }
-    this.newPhoto = file;
-    this.showPreview();
-  }
-
-  uploadImage() {
-    this.fileUploadService
-      .updatePhoto(this.newPhoto, 'users', this.userService.uid)
-      .then(res => {
-        this.userService.updateUser(res.data.updated);
-      });
+  openModal() {
+    this.modalImage.showModal(this.currentUser, `users`);
   }
 
 }

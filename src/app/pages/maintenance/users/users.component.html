@@ -1,0 +1,108 @@
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Buscar ..."
+          (keyup)="search(txtTerm.value)" #txtTerm>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="loading">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="alert alert-info text-center">
+          <h4 class="alert-heading">Cargando</h4>
+          <i class="fa fa-spin fa-refresh fa-2x"></i>
+          <p class="mb-0">Por favor espere</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="!loading">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Total de Usuarios ({{countUser}})</h4>
+        <h6 class="card-subtitle">Coincidencias de busqueda</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-center">Foto</th>
+                <th class="text-center">Correo electrónico</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Rol</th>
+                <th class="text-center">Authenticación</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+
+              <tr *ngFor="let user of userList" class="animated fadeIn fast">
+                <td
+                class="cursor"
+                (click)="openModal(user)">
+                  <img [src]="user.img" alt="" style="width: 60px;">
+                </td>
+                <td>{{user.email}}</td>
+                <td>{{user.mainName}}</td>
+                <td>
+                  <select
+                  class="form-control"
+                  name=""
+                  id="sltRol"
+                  [(ngModel)]='user.role._id'
+                  (change)="updateRole(user)">
+                    <option [ngValue]="role._id" *ngFor="let role of allRoles">
+                      {{role.name}}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <span *ngIf="user.googleTokenLogin" class="label label-danger">
+                    Google
+                  </span>
+                  <span *ngIf="!user.googleTokenLogin" class="label label-info">
+                    Credenciales
+                  </span>
+                </td>
+                <td class="text-nowrap" >
+
+                  <div *ngIf="isCurrentUser(user._id)">
+
+                    <a class="cursor" data-toggle="tooltip" data-original-title="Borrar" (click)="deleteUser(user)">
+                      <i class="fa fa-close text-danger"></i>
+                    </a>
+                  </div>
+
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-secondary" (click)="changePage(-5)" [disabled]="currentUserCount === 0">
+            Anteriores
+          </button>
+          &nbsp;
+          <button class="btn btn-secondary" (click)="changePage(5)" [disabled]="blockNext">
+            Siguientes
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

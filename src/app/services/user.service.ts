@@ -25,6 +25,15 @@ export class UserService {
     this.googleInit();
   }
 
+  get header() {
+    const header = {
+      headers: {
+        'x-token': this.token
+      }
+    }
+    return header;
+  }
+
   get uid() {
     return this.activeUser._id || '';
   }
@@ -34,6 +43,26 @@ export class UserService {
     return currentToken;
   }
 
+  createUser(formData: NewUserData) {
+    return this.http.post(`${baseUrl}user`, formData);
+  }
+
+  deleteUser(userId) {
+    const url = `${environment.base_url}user/${userId}`;
+    return this.http.delete(url, this.header);
+  }
+
+  getAllUsers(fromOf: number = 0) {
+    const url = `${environment.base_url}user?fromOf=${fromOf}`;
+
+    return this.http.get(url, this.header).pipe(
+      map((res: any) => {
+        res.data.users = Array.from(res.data.users, user => new User(user));
+        return res;
+      })
+    );
+  }
+
   googleInit() {
     gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
@@ -41,10 +70,6 @@ export class UserService {
         cookiepolicy: 'single_host_origin'
       });
     });
-  }
-
-  createUser(formData: NewUserData) {
-    return this.http.post(`${baseUrl}user`, formData);
   }
 
   hasToken() {
@@ -96,11 +121,7 @@ export class UserService {
   }
 
   renewToken(): any {
-    return this.http.get(`${baseUrl}login/renew`, {
-      headers: {
-        'x-token': this.token
-      }
-    }).pipe(
+    return this.http.get(`${baseUrl}login/renew`, this.header).pipe(
       tap((res: any) => {
         this.activeUser = new User(res.data.user);
         sessionStorage.setItem(localData.login, res.data.token);
@@ -113,14 +134,10 @@ export class UserService {
   }
 
   updateProfile(profileData: ProfileData) {
-    return this.http.put(`${baseUrl}user/${this.uid}`, profileData, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${baseUrl}user/${this.uid}`, profileData, this.header);
   }
 
   updateUser(newData) {
-    this.activeUser.updateData(newData);
+    this.activeUser.updateData(newData)
   }
 }

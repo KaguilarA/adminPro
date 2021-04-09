@@ -1,0 +1,39 @@
+<div class="modal fade show animated fadeIn fast" id="exampleModal" [class.showModal]="displayState" (show)="hello()">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel1">Cargar Imagen</h4>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>
+            <i class="fa fa-times"></i>
+          </span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Seleccione una Imagen</h3>
+
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Modificar imagen</h4>
+
+            <div class="text-center" >
+              <img class="img-avatar" [src]="previewImg || dataImage">
+            </div>
+
+            <input type="file" (change)="updateImage($event.target.files[0])">
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeModal()">
+          Cerrar
+        </button>
+
+        <button type="button" class="btn btn-success waves-effect waves-light m-r-10" [disabled]="!newPhoto" (click)="uploadImage()">
+          Cambiar imagen
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
