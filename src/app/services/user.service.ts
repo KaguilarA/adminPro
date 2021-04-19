@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from "rxjs/operators";
+import { of } from 'rxjs';
+import { catchError, map } from "rxjs/operators";
 
 import { environment } from 'src/environments/environment';
 
@@ -32,6 +33,9 @@ export class UserService {
       map((res: any) => {
         res.data = new User(res.data);
         return res;
+      }),
+      catchError((err) => {
+        return of(err.error);
       })
     );
   }

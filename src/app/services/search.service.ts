@@ -34,7 +34,6 @@ export class SearchService {
       map((res: any) => Array.from(res.data.result, item => {
         let data;
         switch (type) {
-          
           case `hospital`:
             data = new Hospital(item);
             break;
@@ -53,6 +52,45 @@ export class SearchService {
         }
         return data;
       }))
+    );
+  }
+
+  searchAll(term: string) {
+    const url = `${this.baseUrl}/all/${term}`;
+
+    return this.http.get(url, this.tokenService.header).pipe(
+      map((res: any) => {
+        const data = res.data.result;
+
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const currentRes = data[key].result;
+            for (let i = 0; i < currentRes.length; i++) {
+              const element = currentRes[i];
+              let formatted;
+              switch (key) {
+                case `hospitals`:
+                  formatted = new Hospital(element);
+                  break;
+
+                case `roles`:
+                  formatted = new Role(element);
+                  break;
+
+                case `doctors`:
+                  formatted = new Doctor(element);
+                  break;
+
+                default:
+                  formatted = new User(element);
+                  break;
+              }
+              currentRes[i] = formatted;
+            }
+          }
+        }
+        return data
+      })
     );
   }
 }

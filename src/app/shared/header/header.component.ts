@@ -25,4 +25,13 @@ export class HeaderComponent {
     this.router.navigateByUrl(`/`);
   }
 
+  search(term: string) {
+    if (term.length !== 0) {
+      this.router.navigateByUrl(`/dashboard/results/${term}`);
+    } else {
+      $(".app-search").toggle(200);
+      this.router.navigateByUrl(`/dashboard`);
+    }
+  }
+
 }

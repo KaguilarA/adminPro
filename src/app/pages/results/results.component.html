@@ -1,0 +1,113 @@
+<div class="row animated fadeIn fast">
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Usuarios</h4>
+        <h6 class="card-subtitle">Resultados de la busqueda</h6>
+
+        <div class="alert alert-info" 
+        *ngIf="userList.length === 0">
+          <p class="mb-2">
+            No hay coincidencias
+          </p>
+        </div>
+
+        <div class="table-responsive"
+        *ngIf="userList.length > 0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userList" class="animated fadeIn fast" >
+                <td>
+                  <img [src]="user.img" [alt]="user.name" width="60" >
+                </td>
+                <td>{{user.mainName}}</td>
+                <td><span class="label label-danger">{{user.role.name}}</span> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+
+        <h4 class="card-title">Hospitales</h4>
+        <h6 class="card-subtitle">Resultados de la busqueda</h6>
+
+        <div class="alert alert-info" *ngIf="hospitalList.length === 0">
+          <p class="mb-2">
+            No hay coincidencias
+          </p>
+        </div>
+
+        <div class="table-responsive"  *ngIf="hospitalList.length > 0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hospital of hospitalList" class="animated fadeIn fast">
+                <td>
+                  <img [src]="hospital.img" [alt]="hospital.name" width="60">
+                </td>
+                <td>{{hospital.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Doctores</h4>
+        <h6 class="card-subtitle">Resultados de la busqueda</h6>
+
+        <div class="alert alert-info" *ngIf="doctorList.length === 0">
+          <p class="mb-2">
+            No hay coincidencias
+          </p>
+        </div>
+
+        <div class="table-responsive" *ngIf="doctorList.length > 0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Hospital</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doctor of doctorList" class="animated fadeIn fast">
+                <td>
+                  <img [src]="doctor.img" [alt]="doctor.name" width="60">
+                </td>
+                <td>{{doctor.mainName}}</td>
+                <td>{{doctor.hospitalId.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

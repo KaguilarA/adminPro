@@ -1,5 +1,7 @@
 <header class="topbar">
+
   <nav class="navbar top-navbar navbar-expand-md navbar-light">
+
     <div class="navbar-header">
       <a class="navbar-brand" href="/dashboard">
         <!-- Logo icon --><b>
@@ -27,19 +29,23 @@
             href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
         <li class="nav-item hidden-sm-down"></li>
       </ul>
-      <!-- ============================================================== -->
-      <!-- User profile and search -->
-      <!-- ============================================================== -->
+
       <ul class="navbar-nav my-lg-0">
-        <!-- ============================================================== -->
-        <!-- Search -->
-        <!-- ============================================================== -->
-        <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark"
-            href="javascript:void(0)"><i class="ti-search"></i></a>
-          <form class="app-search">
-            <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i
-                class="ti-close"></i></a> </form>
+
+        <li class="nav-item hidden-xs-down search-box">
+
+          <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)">
+            <i class="ti-search"></i>
+          </a>
+
+          <form class="app-search" (submit)="search(txtTemr.value)">
+            <input type="text" class="form-control" placeholder="Presione enter para buscar" #txtTemr>
+            <a class="srh-btn">
+              <i class="ti-close"></i>
+            </a> 
+          </form>
         </li>
+
         <!-- ============================================================== -->
         <!-- Comment -->
         <!-- ============================================================== -->
@@ -222,4 +228,5 @@
       </ul>
     </div>
   </nav>
+
 </header>

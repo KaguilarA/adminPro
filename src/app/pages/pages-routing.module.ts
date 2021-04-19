@@ -15,6 +15,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+import { ResultsComponent } from './results/results.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -26,13 +28,14 @@ const routes: Routes = [
       { path: 'progress', component: ProgressComponent, data: { title: 'Progress Bar' } },
       { path: 'grafica1', component: Grafica1Component, data: { title: 'Grafica' } },
       { path: 'settings', component: AccountSettingsComponent, data: { title: 'Ajustes de Tema' } },
+      { path: 'results/:term', component: ResultsComponent, data: { title: 'Resultados de busqueda' } },
       { path: 'promises', component: PromisesComponent, data: { title: 'Promesas' } },
       { path: 'rxjs', component: RxjsComponent, data: { title: 'rxjs' } },
       { path: 'profile', component: ProfileComponent, data: { title: 'Perfil' } },
 
       // Maintenance
 
-      { path: 'users', component: UsersComponent, data: { title: 'Mantenimiento de usuarios' } },
+      { path: 'users', canActivate: [ AdminGuard ], component: UsersComponent, data: { title: 'Mantenimiento de usuarios' } },
       { path: 'hospitals', component: HospitalsComponent, data: { title: 'Mantenimiento de hospitales' } },
       { path: 'doctors', component: DoctorsComponent, data: { title: 'Mantenimiento de médicos' } }
     ]

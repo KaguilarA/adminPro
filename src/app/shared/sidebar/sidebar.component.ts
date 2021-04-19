@@ -10,23 +10,23 @@ import { SidebarService } from '../../services/sidebar.service';
   ]
 })
 export class SidebarComponent implements OnInit {
-  items: any[];
 
   constructor(
     private sidebarService: SidebarService,
     private authService: AuthService,
     private router: Router
   ) {
-    this.items = sidebarService.menu;
-    console.log(this.items)
   }
 
   get currentUser() {
     return this.authService.activeUser;
   }
 
-  ngOnInit(): void {
+  get items() {
+    return this.sidebarService.menu;
   }
+
+  ngOnInit(): void { }
 
   logout(): void {
     this.authService.logout();

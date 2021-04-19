@@ -22,7 +22,7 @@ export class RegisterComponent {
     password: ['test123', [Validators.required, Validators.minLength(4)]],
     password2: ['test123', [Validators.required, Validators.minLength(4)]],
     terms: [false, Validators.required],
-    role: [1]
+    role: ['60696b068aafeb51e0f16294']
   });
 
   constructor(
@@ -51,9 +51,11 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.userService.createUser(this.registerForm.value).subscribe(
         resp => {
-          console.log(resp);
-        }, err => {
-          Swal.fire('Error', err.error.msj, 'error');
+          if (resp.state) {
+            console.log(resp);
+          } else {
+            Swal.fire(resp.msj, resp.errors.message, 'error');
+          }
         }
       );
     }
