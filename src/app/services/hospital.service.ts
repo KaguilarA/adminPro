@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
+import { NewHospitalData } from '../interfaces/registerHospital.interface';
+import { Hospital } from "./../models/hospital.model";
 
-import { NewUserData } from '../interfaces/registerUser.interface';
-
-import { User } from '../models/user.model';
 import { TokenService } from './token.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  public readonly urlEntity: "user" = `user`;
+export class HospitalService {
+  public readonly urlEntity: "hospital" = `hospital`;
 
   constructor(
     private http: HttpClient,
@@ -23,42 +21,42 @@ export class UserService {
 
   get baseUrl(): string {
     const url: string = `${environment.base_url}${this.urlEntity}`;
-
     return url;
   }
 
-  public createUser(formData: NewUserData) {
-    return this.http.post(this.baseUrl, formData).pipe(
+  public createHospital(formData: NewHospitalData) {
+    return this.http.post(this.baseUrl, formData, this.tokenService.header).pipe(
       map((res: any) => {
-        res.data = new User(res.data);
+        res.data = new Hospital(res.data);
         return res;
       })
     );
   }
 
-  public deleteUser(userId) {
-    const url = `${this.baseUrl}/${userId}`;
-  
+  public deleteHospital(id) {
+    const url = `${this.baseUrl}/${id}`;
+
     return this.http.delete(url, this.tokenService.header);
   }
 
-  public getAllUsers(fromOf: number = 0) {
+  public getAllHospitals(fromOf: number = 0) {
     const url = `${this.baseUrl}?fromOf=${fromOf}`;
 
     return this.http.get(url, this.tokenService.header).pipe(
       map((res: any) => {
-        res.data.users = Array.from(res.data.users, user => new User(user));
-        return res;
+        res.data.hospitals = Array.from(res.data.hospitals,
+          (hospital) => new Hospital(hospital));
+        return res.data;
       })
     );
   }
 
-  public updateUser(newData: NewUserData, id: string) {
+  public updateHospital(newData: NewHospitalData, id: string) {
     const url = `${this.baseUrl}/${id}`;
 
     return this.http.put(url, newData, this.tokenService.header).pipe(
       map((res: any) => {
-        res.data = new User(res.data);
+        res.data = new Hospital(res.data);
         return res;
       })
     );

@@ -4,7 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import Swal from "sweetalert2";
 
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 declare const gapi: any;
 
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   public formSubmitted = false;
 
   public loginForm = this.fb.group({
-    email: [this.userService.remindedUser(), [Validators.required, Validators.email]],
+    email: [this.tokenService.remindedUser(), [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4)]],
     remindMe: [this.validateRemindMe()]
   });
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UserService,
+    private authService: AuthService,
+    private tokenService: TokenService,
     private ngZone: NgZone
   ) {
   }
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      this.userService.login(this.loginForm.value).subscribe(
+      this.authService.login(this.loginForm.value).subscribe(
         resp => {
           this.ngZone.run(() => {
             this.router.navigateByUrl(`/dashboard`);
@@ -77,11 +79,11 @@ export class LoginComponent implements OnInit {
 
   attachSignin(element) {
 
-    this.userService.auth2.attachClickHandler(element, {},
+    this.authService.auth2.attachClickHandler(element, {},
       (googleUser) => {
         const googleToken = googleUser.getAuthResponse().id_token;
 
-        this.userService.loginGoogle(googleToken).subscribe(
+        this.authService.loginGoogle(googleToken).subscribe(
           resp => {
             this.ngZone.run(() => {
               this.router.navigateByUrl(`/dashboard`);
@@ -97,7 +99,7 @@ export class LoginComponent implements OnInit {
 
   validateRemindMe() {
     let remindMe = false;
-    if (this.userService.remindedUser() !== '') {
+    if (this.tokenService.remindedUser() !== '') {
       remindMe = true;
     }
     return remindMe;

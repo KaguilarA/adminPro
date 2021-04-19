@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from "sweetalert2";
 
 import { UserService } from 'src/app/services/user.service';
-import { ModalImageService } from 'src/app/services/modal-image.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,16 +17,18 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private authService: AuthService,
     private userService: UserService,
-    private modalImage: ModalImageService
+    private modalService: ModalService
   ) {
   }
 
   get currentUser() {
-    return this.userService.activeUser;
+    return this.authService.activeUser;
   }
 
   ngOnInit(): void {
+    this.modalService.resetData();
     this.profileFrom = this.fb.group({
       firstName: [this.currentUser.firstName, Validators.required],
       secondName: [this.currentUser.secondName],
@@ -40,7 +43,7 @@ export class ProfileComponent implements OnInit {
 
   updateProfile() {
     if (this.profileFrom.valid) {
-      this.userService.updateProfile(this.profileFrom.value)
+      this.userService.updateUser(this.profileFrom.value, this.authService.uid)
         .subscribe(
           (res) => {
             console.log('res: ', res);
@@ -55,7 +58,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openModal() {
-    this.modalImage.showModal(this.currentUser, `users`);
+    this.modalService.showImgModal(this.userService.urlEntity, this.currentUser);
   }
 
 }

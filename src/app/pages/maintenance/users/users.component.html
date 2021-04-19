@@ -61,8 +61,8 @@
                   name=""
                   id="sltRol"
                   [(ngModel)]='user.role._id'
-                  (change)="updateRole(user)">
-                    <option [ngValue]="role._id" *ngFor="let role of allRoles">
+                  (change)="updateRole($event.target, user)">
+                    <option [ngValue]="role._id" [attr.data-id]="role._id" *ngFor="let role of allRoles">
                       {{role.name}}
                     </option>
                   </select>
@@ -106,3 +106,5 @@
     </div>
   </div>
 </div>
+
+<app-modals-image></app-modals-image>

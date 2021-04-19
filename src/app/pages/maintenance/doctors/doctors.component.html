@@ -1,11 +1,105 @@
-<div class="row">
+<div class="row animated fadeIn fast">
   <div class="col-12">
-      <div class="card">
-          <div class="card-body">
-              
-            <p>doctors works!</p>
-              
-          </div>
+    <div class="card">
+      <div class="card-body">
+        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Buscar ..."
+          (keyup)="search(txtTerm.value)" #txtTerm>
       </div>
+    </div>
   </div>
 </div>
+
+<div class="row animated fadeIn fast" *ngIf="loading">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="alert alert-info text-center">
+          <h4 class="alert-heading">Cargando</h4>
+          <i class="fa fa-spin fa-refresh fa-2x"></i>
+          <p class="mb-0">Por favor espere</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="!loading">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-8">
+            <h4 class="card-title">Total de Médicos ({{countDoctor}})</h4>
+            <h6 class="card-subtitle">Coincidencias de busqueda</h6>
+          </div>
+
+          <div class="col-4 text-right">
+              <button class="btn btn-primary" (click)="createDoctor()">
+                <i class="fa fa-stethoscope"></i>
+                Crear médico
+              </button>
+          </div>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="text-center">Foto</th>
+                <th class="text-center">Id del doctor</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+
+              <tr *ngFor="let doctor of doctorList" class="animated fadeIn fast">
+                <td class="cursor"
+                (click)="updateDoctorImg(doctor)">
+                  <img [src]="doctor.img" [alt]="doctor.firstName" style="width: 60px;">
+                </td>
+                <td>{{doctor.id}}</td>
+                <td>{{doctor.mainName}}</td>
+                <td class="text-nowrap">
+
+                  <div class="text-center">
+
+                    <a class="cursor mr-2" data-toggle="tooltip" data-original-title="Actualizar Hospital"
+                    (click)="updateDoctor(doctor)">
+                      <i class="fa fa-pencil"></i>
+                    </a>
+
+                    <a class="cursor ml-2" data-toggle="tooltip" data-original-title="Borrar"
+                      (click)="deleteDoctor(doctor)">
+                      <i class="fa fa-close text-danger"></i>
+                    </a>
+                  </div>
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-secondary" (click)="changePage(-5)" [disabled]="currentCountDoctor === 0">
+            Anteriores
+          </button>
+          &nbsp;
+          <button class="btn btn-secondary" (click)="changePage(5)" [disabled]="blockNext">
+            Siguientes
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal-doctor></app-modal-doctor>

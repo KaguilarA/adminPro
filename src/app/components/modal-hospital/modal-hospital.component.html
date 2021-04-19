@@ -1,0 +1,76 @@
+<div class="modal fade show animated fadeIn fast" id="exampleModal" [class.showModal]="displayState">
+
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel1">Hospital</h4>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>
+            <i class="fa fa-times"></i>
+          </span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="w-75 text-center mx-auto">
+          <h3 *ngIf="hasData">Datos del hopital</h3>
+
+          <h3 *ngIf="!hasData">Registro de hopital</h3>
+
+          <form class="form-horizontal form-material" id="loginform" autocomplete="off" [formGroup]="hospitalForm">
+
+            <!-- Name -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                <small class="form-control-feedback text-danger" *ngIf="invalidField('name')"> El nombre del hospital es
+                  requerido </small>
+              </div>
+            </div>
+
+            <!-- Latitude -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="number" placeholder="Latitud" formControlName="latitude">
+              </div>
+            </div>
+
+            <!-- Longitude -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="number" placeholder="Longitud" formControlName="longitude">
+              </div>
+            </div>
+
+            <div class="form-group text-center m-t-20" *ngIf="hasImage">
+              <div class="col-xs-12 cursor" (click)="showImgModal()">
+                <img [src]="data.img" [alt]="data" class="w-50">
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeModal()">
+          Cerrar
+        </button>
+
+        <button type="button" *ngIf="hasData" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateHospital()">
+          Actualizar hospital
+        </button>
+
+        <button type="button" *ngIf="!hasData" class="btn btn-primary waves-effect waves-light m-r-10" (click)="registerHospital()">
+          Registrar hospital
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

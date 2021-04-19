@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FileUploadService } from 'src/app/services/file-upload.service';
-import { ModalImageService } from 'src/app/services/modal-image.service';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-modals-image',
@@ -13,28 +13,28 @@ export class ModalsImageComponent {
   public previewImg: any= null;
 
   constructor(
-    public imageModalService: ModalImageService,
+    public modalService: ModalService,
     private fileUpload: FileUploadService
   ) { }
 
   get dataId() {
-    return this.imageModalService.data._id;
+    return this.modalService.data._id;
   }
 
   get dataImage() {
-    return this.imageModalService.data.img;
+    return this.modalService.data.img;
   }
 
   get entity() {
-    return this.imageModalService.entity;
+    return this.modalService.entity;
   }
 
   get displayState() {
-    return this.imageModalService.modalState;
+    return this.modalService.modalImgState;
   }
 
   closeModal() {
-    this.imageModalService.hideModal();
+    this.modalService.hideImgModal();
     this.previewImg = null;
   }
 
@@ -48,7 +48,7 @@ export class ModalsImageComponent {
 
   updateImage(file: File) {
     if (!file) {
-      this.previewImg = null
+      this.previewImg = null;
     }
     this.newPhoto = file;
     this.showPreview();
@@ -57,7 +57,7 @@ export class ModalsImageComponent {
   uploadImage() {
     this.fileUpload.updatePhoto(this.newPhoto, this.entity, this.dataId)
       .then(res => {
-        this.imageModalService.data.updateData(res.data.updated);
+        this.modalService.data.updateData(res.data.updated);
         this.closeModal();
       });
   }

@@ -1,29 +1,36 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UserService } from './user.service';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileUploadService {
+  public readonly urlEntity: string = `upload`;
 
   constructor(
-    private userService: UserService
+    private tokenService: TokenService
   ) { }
+
+  get baseUrl(): string {
+    const url: string = `${environment.base_url}${this.urlEntity}`;
+
+    return url;
+  }
 
   async updatePhoto(
     photo: File,
-    dataType: 'users' | 'doctors' | 'hospitals',
+    dataType: 'user' | 'doctor' | 'hospital',
     id: string
   ) {
     try {
-      const url = `${environment.base_url}upload/${dataType}/${id}`;
+      const url = `${this.baseUrl}/${dataType}/${id}`;
       const formData = new FormData();
       formData.append('photo', photo);
       const result = await fetch(url, {
         method: 'PUT',
         headers: {
-          'x-token': this.userService.token
+          'x-token': this.tokenService.token
         },
         body: formData
       });

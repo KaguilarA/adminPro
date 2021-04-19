@@ -6,5 +6,5 @@ export interface NewUserData {
   email: string;
   password: string;
   password2: string;
-  terms: boolean;
+  terms?: boolean;
 }

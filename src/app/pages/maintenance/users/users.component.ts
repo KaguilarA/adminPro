@@ -4,9 +4,10 @@ import Swal from 'sweetalert2';
 import { UserService } from 'src/app/services/user.service';
 import { SearchService } from 'src/app/services/search.service';
 import { RoleService } from 'src/app/services/role.service';
-import { ModalImageService } from 'src/app/services/modal-image.service';
+import { ModalService } from 'src/app/services/modal.service';
 
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -24,28 +25,29 @@ export class UsersComponent implements OnInit {
   public newPhoto: File;
 
   constructor(
+    private authService: AuthService,
     private userService: UserService,
     private roleService: RoleService,
     private searchService: SearchService,
-    private modalImageService: ModalImageService
+    private modalService: ModalService
   ) {
     this.roleService.getAllRoles().subscribe(
       res => {
         this.allRoles = res.data;
-        console.log('this.allRoles : ', this.allRoles );
       }
     )
   }
 
   isCurrentUser(userId) {
     let isCurrentUser = true;
-    if (this.userService.uid === userId) {
+    if (this.authService.uid === userId) {
       isCurrentUser = false;
     }
     return isCurrentUser;
   }
 
   ngOnInit(): void {
+    this.modalService.resetData();
     this.loadUser();
   }
 
@@ -87,9 +89,7 @@ export class UsersComponent implements OnInit {
         );
         
       }
-    })
-    
-
+    });
   }
 
   loadUser() {
@@ -107,29 +107,37 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(user: User) {
-    this.modalImageService.showModal(user, `users`);
+    this.modalService.showImgModal(this.userService.urlEntity, user);
   }
 
   search(term) {
     if (term === '') {
       this.loadUser();
     } else {
-      this.searchService.search(`user`, term).subscribe(
+      this.searchService.search(this.userService.urlEntity, term).subscribe(
         res => {
           console.log('res: ', res);
           this.userList = res;
         }
       );
     }
-    
   }
 
-  updateRole(user) {
-    this.userService.updateProfile(user).subscribe(
+  updateRole(event, user: User) {
+    const currentIndex = event.selectedIndex;
+    const currentRol = this.allRoles[currentIndex];
+    const newData: any = { ...user };
+    newData.role = currentRol._id;
+    this.userService.updateUser(newData, this.authService.uid).subscribe(
       (res: any) => {
+        res.data.role = currentRol;
         user.updateData(res.data);
+        Swal.fire(
+          `Usuario actualizado`,
+          `El usuario ${user.mainName} ha sido actualizado correctamente`,
+          `success`
+        );
       }
     );
   }
-
 }

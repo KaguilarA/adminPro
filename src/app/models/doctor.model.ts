@@ -1,26 +1,26 @@
 import { BaseModel } from "./base.model";
 
-export class User extends BaseModel {
+export class Doctor extends BaseModel {
   public firstName: string;
   public firstSurname: string;
-  public email: string;
-  public role: string;
   public img: string;
-  public googleTokenLogin: boolean;
+  public userCreatorId;
+  public hospitalId;
+
   public secondName?: string;
   public secondSurname?: string;
 
   constructor(initData) {
     super();
     this._id = initData._id;
+    this.id = initData.id;
     this.firstName = initData.firstName;
     this.firstSurname = initData.firstSurname;
-    this.email = initData.email;
-    this.role = initData.role;
     this.img = initData.img;
+    this.userCreatorId = initData.userCreatorId;
+    this.hospitalId = initData.hospitalId;
     this.secondName = initData.secondName || '';
     this.secondSurname = initData.secondSurname || '';
-    this.googleTokenLogin = initData.googleTokenLogin || false;
   }
 
   get mainName(): string {

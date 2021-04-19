@@ -11,7 +11,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: [ './register.component.css' ]
 })
 export class RegisterComponent {
-
   public formSubmitted = false;
 
   public registerForm = this.fb.group({

@@ -11,20 +11,20 @@ import { Subscription } from 'rxjs';
 })
 export class BreadcrumbsComponent implements OnDestroy {
 
-  public titulo: string;
-  public tituloSubs$: Subscription;
+  public title: string;
+  public titleSubs: Subscription;
 
   
   constructor( private router: Router, private route: ActivatedRoute ) {
 
-    this.tituloSubs$ = this.getArgumentosRuta()
-                        .subscribe( ({ titulo }) => {
-                            this.titulo = titulo;
-                            document.title = `AdminPro - ${ titulo }`;
+    this.titleSubs = this.getArgumentosRuta()
+                        .subscribe( ({ title }) => {
+                          this.title = title;
+                          document.title = `${title }`;
                         });
   }
   ngOnDestroy(): void {
-    this.tituloSubs$.unsubscribe();
+    this.titleSubs.unsubscribe();
   }
 
 

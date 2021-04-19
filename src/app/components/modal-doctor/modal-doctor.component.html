@@ -1,0 +1,116 @@
+<div class="modal fade show animated fadeIn fast" id="exampleModal" [class.showModal]="displayState">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel1">Médico</h4>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>
+            <i class="fa fa-times"></i>
+          </span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="animated fadeIn fast" *ngIf="loading">
+          <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+          </div>
+        </div>
+
+        <div class="w-75 text-center mx-auto" *ngIf="!loading">
+          <h3 *ngIf="hasData">Datos del médico</h3>
+
+          <h3 *ngIf="!hasData">Registro de médico</h3>
+
+          <form class="form-horizontal form-material" id="loginform" autocomplete="off" [formGroup]="doctorForm">
+
+            <!-- First Name -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="text" placeholder="Primer nombre" formControlName="firstName"
+                  required>
+                <small class="form-control-feedback text-danger" *ngIf="invalidField('firstName')"> El primer nombre del
+                  médico es
+                  requerido </small>
+              </div>
+            </div>
+
+            <!-- Second Name -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="text" placeholder="Segundo nombre" formControlName="secondName">
+              </div>
+            </div>
+
+            <!-- First Surname -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="text" placeholder="Primer apellido" formControlName="firstSurname"
+                  required>
+                <small class="form-control-feedback text-danger" *ngIf="invalidField('firstSurname')"> El primer
+                  apellido del médico es
+                  requerido </small>
+              </div>
+            </div>
+
+            <!-- Second Surname -->
+            <div class="form-group m-t-20">
+              <div class="col-xs-12">
+                <input class="form-control" type="text" placeholder="Segundo apellido" formControlName="secondSurname">
+              </div>
+            </div>
+
+            <!-- Hospital -->
+            <div class="form-group row m-t-20">
+              <label for="sltHospital" class="col-2 mr-3 col-form-label">
+                Hospital
+              </label>
+              <div class="col-9">
+                <select name="sltHospital" id="sltHospital" class="custom-select col-12" formControlName="hospitalId"
+                  required>
+                  <option value="">Seleccione un hospital</option>
+                  <option *ngFor="let hospital of hospitalList" [ngValue]="hospital._id">
+                    {{ hospital.name }}
+                  </option>
+                </select>
+              </div>
+
+              <small class="form-control-feedback text-danger" *ngIf="invalidField('hospitalId')"> El hospital es
+                requerido </small>
+            </div>
+
+            <div class="form-group text-center m-t-20" *ngIf="hasImage">
+              <div class="col-xs-12 cursor" (click)="showImgModal()">
+                <img [src]="data.img" [alt]="data" class="w-50">
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeModal()">
+          Cerrar
+        </button>
+
+        <button type="button" *ngIf="hasData" class="btn btn-success waves-effect waves-light m-r-10"
+          (click)="updateDoctor()">
+          Actualizar médico
+        </button>
+
+        <button type="button" *ngIf="!hasData" class="btn btn-primary waves-effect waves-light m-r-10"
+          (click)="registerDoctor()">
+          Registrar médico
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

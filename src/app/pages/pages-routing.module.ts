@@ -22,7 +22,7 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: DashboardComponent, data: { title: 'Dashboard' } },
+      { path: '', component: DashboardComponent },
       { path: 'progress', component: ProgressComponent, data: { title: 'Progress Bar' } },
       { path: 'grafica1', component: Grafica1Component, data: { title: 'Grafica' } },
       { path: 'settings', component: AccountSettingsComponent, data: { title: 'Ajustes de Tema' } },
@@ -32,9 +32,9 @@ const routes: Routes = [
 
       // Maintenance
 
-      { path: 'users', component: UsersComponent, data: { title: 'Mantenimiento de Usuarios' } },
-      { path: 'hospitals', component: HospitalsComponent, data: { title: 'Mantenimiento de Hospitales' } },
-      { path: 'doctors', component: DoctorsComponent, data: { title: 'Mantenimiento de Doctores' } }
+      { path: 'users', component: UsersComponent, data: { title: 'Mantenimiento de usuarios' } },
+      { path: 'hospitals', component: HospitalsComponent, data: { title: 'Mantenimiento de hospitales' } },
+      { path: 'doctors', component: DoctorsComponent, data: { title: 'Mantenimiento de médicos' } }
     ]
   }
 ];
